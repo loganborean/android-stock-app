@@ -35,8 +35,8 @@ public class Stock extends AppCompatActivity {
         String url = "http://download.finance.yahoo.com/d/quotes.csv?s=" +
                 stockSymbol + "&f=nsl1t1cpoba&e=.csv";
 
-        new RetrieveStockTask().execute(url);
-
+        RetrieveStockTask task = new RetrieveStockTask();
+        task.execute(url);
 
     }
 
@@ -44,17 +44,17 @@ public class Stock extends AppCompatActivity {
 
         protected String doInBackground(String... url) {
 
-            URL oracle = null;
+            URL yahoo = null;
             String dataLine = null;
             try {
-                oracle = new URL(url[0]);
+                yahoo = new URL(url[0]);
             } catch (MalformedURLException e) {
                 Log.d("~~~~~~~~~~~~~~~~~~~~~~~", "malformed url");
             }
             BufferedReader in = null;
             try {
                 in = new BufferedReader(
-                        new InputStreamReader(oracle.openStream()));
+                        new InputStreamReader(yahoo.openStream()));
             } catch (IOException e) {
                 Log.d("~~~~~~~~~~~~~~~~~~~~~~~", "io ex");
             }
@@ -77,74 +77,77 @@ public class Stock extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
+            String[] data = getParsedCsvData(result);
 
-            String line = result;
-            String[] data;
+            data = getDataNoQuotes(data);
 
-            String otherThanQuote = " [^\"] ";
-            String quotedString = String.format(" \" %s* \" ", otherThanQuote);
-            String regex = String.format("(?x) "+ // enable comments, ignore white spaces
-                            ",                         "+ // match a comma
-                            "(?=                       "+ // start positive look ahead
-                            "  (                       "+ //   start group 1
-                            "    %s*                   "+ //     match 'otherThanQuote' zero or more times
-                            "    %s                    "+ //     match 'quotedString'
-                            "  )*                      "+ //   end group 1 and repeat it zero or more times
-                            "  %s*                     "+ //   match 'otherThanQuote'
-                            "  $                       "+ // match the end of the string
-                            ")                         ", // stop positive look ahead
-                    otherThanQuote, quotedString, otherThanQuote);
-
-            data = line.split(regex, -1);
-
-            for(String s : data)
-                Log.d("~~~~~~~~", s);
-
-
-
-
-//            final Intent intent;
-//            final String stockSymbol;
-            TextView messageView;
-
-            messageView = (TextView) findViewById(R.id.stockName);
-            String text = "Stock Name: " + data[0];
-            messageView.setText(text);
-
-            messageView = (TextView) findViewById(R.id.symbol);
-            text = "symbol: " + data[1];
-            messageView.setText(text);
-
-            messageView = (TextView) findViewById(R.id.lastTrade);
-            text = "Last Trade: " + data[2];
-            messageView.setText(text);
-
-            messageView = (TextView) findViewById(R.id.tradeTime);
-            text = "Trade Time: " + data[3];
-            messageView.setText(text);
-
-            messageView = (TextView) findViewById(R.id.change);
-            text = "change: " + data[4];
-            messageView.setText(text);
-
-            messageView = (TextView) findViewById(R.id.prevClose);
-            text = "Previous Close: " + data[5];
-            messageView.setText(text);
-
-            messageView = (TextView) findViewById(R.id.open);
-            text = "Open: " + data[6];
-            messageView.setText(text);
-
-            messageView = (TextView) findViewById(R.id.bid);
-            text = "Bid: " + data[7];
-            messageView.setText(text);
-
-            messageView = (TextView) findViewById(R.id.ask);
-            text = "Ask: " + data[8];
-            messageView.setText(text);
+            displayData(data);
         }
 
     }
+    private String[] getDataNoQuotes(String[] data) {
+        for(int i = 0; i < data.length; i++)
+            data[i] = data[i].replace("\"", "");
+        return data;
+    }
 
+    private String[] getParsedCsvData(String dataLine) {
+        String otherThanQuote = " [^\"] ";
+        String quotedString = String.format(" \" %s* \" ", otherThanQuote);
+        String regex = String.format("(?x) "+ // enable comments, ignore white spaces
+                        ",                         "+ // match a comma
+                        "(?=                       "+ // start positive look ahead
+                        "  (                       "+ //   start group 1
+                        "    %s*                   "+ //     match 'otherThanQuote' zero or more times
+                        "    %s                    "+ //     match 'quotedString'
+                        "  )*                      "+ //   end group 1 and repeat it zero or more times
+                        "  %s*                     "+ //   match 'otherThanQuote'
+                        "  $                       "+ // match the end of the string
+                        ")                         ", // stop positive look ahead
+                otherThanQuote, quotedString, otherThanQuote);
+
+        return dataLine.split(regex, -1);
+    }
+
+    private void displayData(String[] data) {
+        TextView messageView;
+
+        messageView = (TextView) findViewById(R.id.stockName);
+        String text = "Stock Name: " + data[0];
+        messageView.setText(text);
+
+        messageView = (TextView) findViewById(R.id.symbol);
+        text = "symbol: " + data[1];
+        messageView.setText(text);
+
+        messageView = (TextView) findViewById(R.id.lastTrade);
+        text = "Last Trade: " + data[2];
+        messageView.setText(text);
+
+        messageView = (TextView) findViewById(R.id.tradeTime);
+        text = "Trade Time: " + data[3];
+        messageView.setText(text);
+
+        messageView = (TextView) findViewById(R.id.change);
+        text = "change: " + data[4];
+        messageView.setText(text);
+
+        messageView = (TextView) findViewById(R.id.prevClose);
+        text = "Previous Close: " + data[5];
+        messageView.setText(text);
+
+        messageView = (TextView) findViewById(R.id.open);
+        text = "Open: " + data[6];
+        messageView.setText(text);
+
+        messageView = (TextView) findViewById(R.id.bid);
+        text = "Bid: " + data[7];
+        messageView.setText(text);
+
+        messageView = (TextView) findViewById(R.id.ask);
+        text = "Ask: " + data[8];
+        messageView.setText(text);
+
+    }
 
 }
