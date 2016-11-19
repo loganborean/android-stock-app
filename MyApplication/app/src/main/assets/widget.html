@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<div>
+<script>
+var companytick = ["AAPL","FB","GOOG", "YHOO"];
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="http://static.amigobulls.com/js/highstock-2.0.1.min.js.gz"></script>
+<script src="http://static.amigobulls.com/js/chart-widget.min.js.gz"></script>
+<link rel="stylesheet" type="text/css" href="http://static.amigobulls.com/css/chart-widget.min.css.gz" />
+<div id='main-container' style="width:450px;" >
+    <div id="container" style="width:350px;height:300px;">
+    </div>
+    <table id='chart_table'>
+        <tr>
+            <th>Symbol</th>
+            <th> Closing Price </th>
+            <th> Change(%)</th>
+        </tr>
+        <tr id='AAPL'  class='ticker_tr pointerCursor' onclick="getTickChart('AAPL')">
+            <td >AAPL</td>
+            </td>
+            <td class='tick_val'></td>
+            <td class='tick_change'></td>
+        </tr>
+        <tr id='FB'  class='ticker_tr pointerCursor' onclick="getTickChart('FB')">
+            <td>FB</td>
+            <td class='tick_val'></td>
+            <td class='tick_change'></td>
+        </tr>
+        <tr id='GOOG'  class='ticker_tr pointerCursor' onclick="getTickChart('GOOG')">
+            <td>GOOG</td>
+            </td ><td class='tick_val'></td>
+            <td class='tick_change'></td>
+        </tr>
+        <tr id='YHOO'  class='ticker_tr pointerCursor' onclick="getTickChart('YHOO')">
+            <td>YHOO</td>
+            </td ><td class='tick_val'></td>
+            <td class='tick_change'></td>
+        </tr>
+    </table>
+</div>
+</div>
+
+</body>
+</html>

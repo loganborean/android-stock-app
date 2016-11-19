@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -29,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        WebView web = (WebView)findViewById(R.id.webView);
+        web.getSettings().setDomStorageEnabled(true);
+        web.getSettings().setJavaScriptEnabled(true);
+        web.loadUrl("file:///android_asset/widget.html");
 
     }
 }

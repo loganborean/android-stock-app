@@ -1,10 +1,12 @@
 package com.example.logan.stockapp;
 
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -82,6 +84,11 @@ public class Stock extends AppCompatActivity {
             data = getDataNoQuotes(data);
 
             displayData(data);
+
+            WebView web = (WebView)findViewById(R.id.webView2);
+            web.getSettings().setDomStorageEnabled(true);
+            web.getSettings().setJavaScriptEnabled(true);
+            web.loadUrl("file:///android_asset/stock_widget.html");
         }
 
     }
@@ -93,6 +100,7 @@ public class Stock extends AppCompatActivity {
 
     private String[] getParsedCsvData(String dataLine) {
         String otherThanQuote = " [^\"] ";
+        //yes please some more
         String quotedString = String.format(" \" %s* \" ", otherThanQuote);
         String regex = String.format("(?x) "+ // enable comments, ignore white spaces
                         ",                         "+ // match a comma
@@ -113,39 +121,39 @@ public class Stock extends AppCompatActivity {
         TextView messageView;
 
         messageView = (TextView) findViewById(R.id.stockName);
-        String text = "Stock Name: " + data[0];
+        String text = data[0];
         messageView.setText(text);
 
         messageView = (TextView) findViewById(R.id.symbol);
-        text = "symbol: " + data[1];
+        text = data[1];
         messageView.setText(text);
 
         messageView = (TextView) findViewById(R.id.lastTrade);
-        text = "Last Trade: " + data[2];
+        text =  data[2];
         messageView.setText(text);
 
         messageView = (TextView) findViewById(R.id.tradeTime);
-        text = "Trade Time: " + data[3];
+        text =  data[3];
         messageView.setText(text);
 
         messageView = (TextView) findViewById(R.id.change);
-        text = "change: " + data[4];
+        text =  data[4];
         messageView.setText(text);
 
         messageView = (TextView) findViewById(R.id.prevClose);
-        text = "Previous Close: " + data[5];
+        text =  data[5];
         messageView.setText(text);
 
         messageView = (TextView) findViewById(R.id.open);
-        text = "Open: " + data[6];
+        text =  data[6];
         messageView.setText(text);
 
         messageView = (TextView) findViewById(R.id.bid);
-        text = "Bid: " + data[7];
+        text =  data[7];
         messageView.setText(text);
 
         messageView = (TextView) findViewById(R.id.ask);
-        text = "Ask: " + data[8];
+        text =  data[8];
         messageView.setText(text);
 
     }
