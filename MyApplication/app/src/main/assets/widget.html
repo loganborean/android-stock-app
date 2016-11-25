@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head></head>
+<head>
+</head>
 <body>
 <div>
 <script>
-var companytick = ["AAPL","FB","GOOG", "YHOO"];
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
@@ -14,36 +14,35 @@ var companytick = ["AAPL","FB","GOOG", "YHOO"];
 <div id='main-container' style="width:450px;" >
     <div id="container" style="width:350px;height:300px;">
     </div>
-    <table id='chart_table'>
-        <tr>
+    <div id="asdfjl">
+
+    </div>
+
+    <table id='chart_table' style="width: 350px">
+        <tr id="insert-point">
             <th>Symbol</th>
             <th> Closing Price </th>
             <th> Change(%)</th>
-        </tr>
-        <tr id='AAPL'  class='ticker_tr pointerCursor' onclick="getTickChart('AAPL')">
-            <td >AAPL</td>
-            </td>
-            <td class='tick_val'></td>
-            <td class='tick_change'></td>
-        </tr>
-        <tr id='FB'  class='ticker_tr pointerCursor' onclick="getTickChart('FB')">
-            <td>FB</td>
-            <td class='tick_val'></td>
-            <td class='tick_change'></td>
-        </tr>
-        <tr id='GOOG'  class='ticker_tr pointerCursor' onclick="getTickChart('GOOG')">
-            <td>GOOG</td>
-            </td ><td class='tick_val'></td>
-            <td class='tick_change'></td>
-        </tr>
-        <tr id='YHOO'  class='ticker_tr pointerCursor' onclick="getTickChart('YHOO')">
-            <td>YHOO</td>
-            </td ><td class='tick_val'></td>
-            <td class='tick_change'></td>
+            <th> DELETE</th>
         </tr>
     </table>
 </div>
 </div>
+<script type="text/javascript">
+    var myVar = null;
+
+    myVar = Android.getFromAndroid();
+    var companytick = myVar.split(" ");
+
+    for (var i = 0; i < companytick.length; i++) {
+var strVar = '<tr id="' + companytick[i] + '"  class="ticker_tr pointerCursor" ><td onclick=\"getTickChart(\'' + companytick[i] + '\')\">' + companytick[i] + '</td></td><td class="tick_val"></td><td class="tick_change"></td><td><a href="#" onclick=\"Android.deleteFav(\'' + companytick[i] + '\'); ref();\">DELETE</a></td></tr>';
+       $("#insert-point").after(strVar);
+    }
+
+    function ref() {
+        location.reload();
+    }
+</script>
 
 </body>
 </html>

@@ -2,12 +2,16 @@ package com.example.logan.stockapp;
 
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -84,11 +88,6 @@ public class Stock extends AppCompatActivity {
             data = getDataNoQuotes(data);
 
             displayData(data);
-
-            WebView web = (WebView)findViewById(R.id.webView2);
-            web.getSettings().setDomStorageEnabled(true);
-            web.getSettings().setJavaScriptEnabled(true);
-            web.loadUrl("file:///android_asset/stock_widget.html");
         }
 
     }
@@ -125,8 +124,8 @@ public class Stock extends AppCompatActivity {
         messageView.setText(text);
 
         messageView = (TextView) findViewById(R.id.symbol);
-        text = data[1];
-        messageView.setText(text);
+        final String symbol = data[1];
+        messageView.setText(symbol);
 
         messageView = (TextView) findViewById(R.id.lastTrade);
         text =  data[2];
@@ -155,6 +154,25 @@ public class Stock extends AppCompatActivity {
         messageView = (TextView) findViewById(R.id.ask);
         text =  data[8];
         messageView.setText(text);
+
+
+        Button buttonOne = (Button) findViewById(R.id.buttonFav);
+        buttonOne.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                FavouritesHelper favHelper = FavouritesHelper.getInstance(getApplicationContext());
+                SQLiteDatabase db = favHelper.getWritableDatabase();
+                favHelper.insertFavourite(db, symbol);
+                Toast.makeText(getApplicationContext(), "Favourite Inserted", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Button buttonBack = (Button) findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

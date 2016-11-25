@@ -10,6 +10,12 @@
     tools:context="com.example.logan.stockapp.Stock"
     android:orientation="vertical">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BACK"
+        android:id="@+id/buttonBack" />
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="245dp"
@@ -275,10 +281,10 @@
         </TableRow>
     </TableLayout>
 
-    <WebView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/webView2"
-        android:layout_gravity="center_horizontal" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add to Favourites"
+        android:id="@+id/buttonFav" />
 
 </LinearLayout>
