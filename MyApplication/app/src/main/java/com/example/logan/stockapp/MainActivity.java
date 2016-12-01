@@ -10,6 +10,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,10 +33,19 @@ public class MainActivity extends AppCompatActivity {
 
                 messageView = (EditText)findViewById(R.id.stockText);
                 stockSymbol = messageView.getText().toString();
-                intent = new Intent(getApplicationContext(), Stock.class);
-                intent.putExtra("stockSymbol", stockSymbol);
-                startActivity(intent);
-                finish();
+
+                if (isValidStockSymbol(stockSymbol)) {
+                    intent = new Intent(getApplicationContext(), Stock.class);
+
+                    intent.putExtra("stockSymbol", stockSymbol.toUpperCase());
+                    startActivity(intent);
+                    finish();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Invalidstock symbol", Toast.LENGTH_LONG).show();
+                }
+
+
             }
         });
 
@@ -56,13 +66,21 @@ public class MainActivity extends AppCompatActivity {
         web.reload();
     }
 
+    public boolean isValidStockSymbol(String symbol) {
+        for (int i = 0; i < symbol.length(); i++) {
+            if (!Character.isLetter(symbol.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     protected void insertDefaults() {
         favHelper = FavouritesHelper.getInstance(getApplicationContext());
         SQLiteDatabase db = favHelper.getWritableDatabase();
         long numEntries = favHelper.getNumberOfFavourites(db);
 
         if (numEntries == 0) {
-            Log.d("~~~~~", "insertig");
             favHelper.insertFavourite(db, "GOOG");
             favHelper.insertFavourite(db, "AAPL");
             favHelper.insertFavourite(db, "AMZN");

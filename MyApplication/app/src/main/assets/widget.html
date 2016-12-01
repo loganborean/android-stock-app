@@ -11,7 +11,7 @@
 <script src="http://static.amigobulls.com/js/highstock-2.0.1.min.js.gz"></script>
 <script src="http://static.amigobulls.com/js/chart-widget.min.js.gz"></script>
 <link rel="stylesheet" type="text/css" href="http://static.amigobulls.com/css/chart-widget.min.css.gz" />
-<div id='main-container' style="width:450px;" >
+<div id='main-container' style="width:350px;" >
     <div id="container" style="width:350px;height:300px;">
     </div>
     <div id="asdfjl">
@@ -35,8 +35,8 @@
     var companytick = myVar.split(" ");
 
     for (var i = 0; i < companytick.length; i++) {
-var strVar = '<tr id="' + companytick[i] + '"  class="ticker_tr pointerCursor" ><td onclick=\"getTickChart(\'' + companytick[i] + '\')\">' + companytick[i] + '</td></td><td class="tick_val"></td><td class="tick_change"></td><td><a href="#" onclick=\"Android.deleteFav(\'' + companytick[i] + '\'); ref();\">DELETE</a></td></tr>';
-       $("#insert-point").after(strVar);
+        var strVar = '<tr id="' + companytick[i] + '"  class="ticker_tr pointerCursor" ><td onclick=\"getTickChart(\'' + companytick[i] + '\')\">' + companytick[i] + '</td></td><td class="tick_val"></td><td class="tick_change"></td><td><a href="#" onclick=\"Android.deleteFav(\'' + companytick[i] + '\'); ref();\">DELETE</a></td></tr>';
+        $("#insert-point").after(strVar);
     }
 
     function ref() {

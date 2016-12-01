@@ -18,7 +18,6 @@ public class JavaScriptInterface {
 
     @JavascriptInterface
     public void deleteFav(String stock) {
-        Log.d("~~~~~", "her " + stock);
         favHelper = FavouritesHelper.getInstance(mContext);
         SQLiteDatabase db = favHelper.getWritableDatabase();
         favHelper.deleteFav(db, stock);
@@ -27,15 +26,13 @@ public class JavaScriptInterface {
 
     @JavascriptInterface
     public String getFromAndroid() {
-//        String things = "AAPL FB GOOG YHOO";
-
         String symbols = "";
 
         favHelper = FavouritesHelper.getInstance(mContext);
         SQLiteDatabase db = favHelper.getReadableDatabase();
         Cursor cursor = favHelper.getAllFavourites(db);
 
-        while(cursor.moveToNext()){
+        while(cursor.moveToNext()) {
             symbols += cursor.getString(cursor.getColumnIndex("name")) + " ";
         }
         if (symbols.length() > 0 && symbols.charAt(symbols.length()-1)==' ') {
